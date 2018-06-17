@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { GamesService } from '../../games/games.service';
 
 enum TicTacToePlayer {
   X = 'X',
@@ -76,7 +77,7 @@ export class TicTacToeBoardComponent implements OnInit {
   public currentPlayer: TicTacToePlayer;
   public winner: TicTacToePlayer = null;
 
-  constructor() { }
+  constructor(private gamesService: GamesService) { }
 
   ngOnInit() {
     this.reset();
@@ -119,6 +120,9 @@ export class TicTacToeBoardComponent implements OnInit {
       this.switchPlayer();
       if (this.winner = this.checkForGameOver()) {
         console.log(this.winner);
+        this.gamesService.reportWin('Tic-Tac-Toe', this.winner.toString()).subscribe(() => {
+          console.log('win reported!');
+        });
       }
     }
   }
