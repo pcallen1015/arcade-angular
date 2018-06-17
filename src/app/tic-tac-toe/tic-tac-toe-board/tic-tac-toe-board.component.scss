@@ -1,0 +1,28 @@
+.board-container {
+    border: 1px solid;
+    display: inline-block;
+    padding: 10px;
+    position: relative;
+
+    .board {
+        .cell {
+            height: 120px;
+            width: 120px;
+            border: 1px solid;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 40px;
+        }
+    }
+
+    .board-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, .65);
+        color: white;
+    }
+}
+

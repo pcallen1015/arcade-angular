@@ -1,0 +1,11 @@
+<div class="board-container">
+  <table class="board">
+    <tbody>
+      <tr *ngFor="let row of board.rows">
+        <td class="cell" *ngFor="let cell of row.cells" (click)="click(cell)">{{ cell.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="board-overlay" *ngIf="winner">Winner! {{ winner }}</div>
+</div>

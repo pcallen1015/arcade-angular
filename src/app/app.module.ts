@@ -4,13 +4,18 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
+// Tic-Tac-Toe
+import { TicTacToeModule } from './tic-tac-toe/tic-tac-toe.module';
+
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+
+    TicTacToeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
