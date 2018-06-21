@@ -1,9 +1,14 @@
-<div>
-  <h1>Welcome to the Angular Arcade!</h1>
-  <ul>
-    <li *ngFor="let game of games">
-      <a [routerLink]="['/game', game.id]">{{ game.name }}</a>
-    </li>
-  </ul>
-  
-</div>
+
+  <div class="header">
+    <h1 style="text-align: center;">Welcome to the Angular Arcade!</h1>
+  </div>
+
+  <div class="body">
+    <h2>Games:</h2>
+    <div class="game-grid">
+      <div class="game-tile" *ngFor="let game of games" [routerLink]="['/game', game.id]">
+        <h4>{{ game.name }}</h4>
+      </div>
+    </div>
+  </div>
+

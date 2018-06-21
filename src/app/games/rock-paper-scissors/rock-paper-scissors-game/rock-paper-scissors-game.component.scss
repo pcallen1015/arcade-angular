@@ -3,6 +3,7 @@
 .container {
     width: 500px;
     height: 500px;
+    background-color: map-get($map: $colors-core, $key: white);
     border: 4px solid map-get($map: $colors-core, $key: indigoBlue);
     position: relative;
 

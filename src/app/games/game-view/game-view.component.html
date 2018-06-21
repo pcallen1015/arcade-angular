@@ -1,11 +1,12 @@
 <div class="game-view">
-  <div class="game">
-    <tic-tac-toe-game *ngIf="gameId === 'tic-tac-toe'"></tic-tac-toe-game>
+  <div class="game" [ngSwitch]="gameId">
+    <tic-tac-toe-game #game *ngSwitchCase="'tic-tac-toe'"></tic-tac-toe-game>
 
-    <rock-paper-scissors-game *ngIf="gameId === 'rock-paper-scissors'"></rock-paper-scissors-game>
+    <rock-paper-scissors-game #game *ngSwitchCase="'rock-paper-scissors'"></rock-paper-scissors-game>
 
     <div class="navigation">
       <button class="btn" [routerLink]="['/browse']">Back to Browse</button>
+      <button class="btn" (click)="newGame()">New Game</button>
     </div>
   </div>
 

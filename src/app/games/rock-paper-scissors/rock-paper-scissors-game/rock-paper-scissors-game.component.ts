@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, forwardRef } from '@angular/core';
+import { GameComponent } from '../../game-component';
 import { GamesService } from '../../games.service';
 
 @Component({
   selector: 'rock-paper-scissors-game',
   templateUrl: './rock-paper-scissors-game.component.html',
-  styleUrls: ['./rock-paper-scissors-game.component.scss']
+  styleUrls: ['./rock-paper-scissors-game.component.scss'],
+  providers: [{ provide: GameComponent, useExisting: forwardRef(() => RockPaperScissorsGameComponent)}]
 })
-export class RockPaperScissorsGameComponent implements OnInit {
+export class RockPaperScissorsGameComponent extends GameComponent implements OnInit {
 
   private _moves: string[] = ['rock', 'paper', 'scissors'];
   public get moves(): string[] { return this._moves; }
@@ -31,10 +33,10 @@ export class RockPaperScissorsGameComponent implements OnInit {
   private _opponentMove: string;
   public get opponentMove(): string { return this._opponentMove; }
 
-  constructor(private gamesService: GamesService) { }
+  constructor(private gamesService: GamesService) { super(); }
 
   ngOnInit() {
-    this.reset();
+    this.newGame();
   }
 
   private determineOpponentsMove(): string {
@@ -77,7 +79,8 @@ export class RockPaperScissorsGameComponent implements OnInit {
     console.info(`Move: ${this._playerMove}`);
   }
 
-  public reset(): void {
+  public newGame(): void {
+    console.info('Starting a new Rock-Paper-Scissors game');
     this._playing = false;
     this._choosingMove = false;
     this._timeRemaining = 3;

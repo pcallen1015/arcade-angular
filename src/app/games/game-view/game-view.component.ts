@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { GameComponent } from '../game-component';
 
 @Component({
   selector: 'app-game-view',
@@ -7,6 +8,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./game-view.component.scss']
 })
 export class GameViewComponent implements OnInit {
+  @ViewChild(GameComponent) game: GameComponent;
 
   private _gameId: string;
   public get gameId(): string { return this._gameId; }
@@ -18,6 +20,10 @@ export class GameViewComponent implements OnInit {
       console.log(params.get('gameId'));
       this._gameId = params.get('gameId');
     });
+  }
+
+  public newGame(): void {
+    if (this.game) this.game.newGame();
   }
 
 }

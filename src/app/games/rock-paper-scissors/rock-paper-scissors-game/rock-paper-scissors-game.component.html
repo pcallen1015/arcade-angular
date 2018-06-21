@@ -15,7 +15,7 @@
       <h3>Opponent's Move: {{ opponentMove || 'none' | uppercase }}</h3>
       <h3>Your Move: {{ playerMove || 'none' | uppercase }}</h3>
       <h1>Result: {{ outcome | uppercase }}!</h1>
-      <button class="btn" (click)="reset();">Play Again</button>
+      <button class="btn" (click)="newGame()">Play Again</button>
     </div>
   </div>
 </div>
