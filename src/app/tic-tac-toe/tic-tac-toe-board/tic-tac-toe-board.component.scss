@@ -1,17 +1,33 @@
+@import 'variables';
+
 .board-container {
-    border: 1px solid;
+    border: 4px solid map-get($map: $colors-core, $key: indigo-blue);
+    background-color: map-get($map: $colors-core, $key: cisco-blue);
+    color: map-get($map: $colors-core, $key: white);
     display: inline-block;
-    padding: 10px;
+    padding: 2rem;
     position: relative;
 
     .board {
-        .cell {
-            height: 120px;
-            width: 120px;
-            border: 1px solid;
-            text-align: center;
-            vertical-align: middle;
-            font-size: 40px;
+        background-color: transparent;
+        font-size: 4rem;
+        border-collapse: collapse;
+
+        .row {
+            &:not(:first-child) {
+                border-top: 6px solid;
+            }
+
+            .cell {
+                height: 8rem;
+                width: 8rem;
+                text-align: center;
+                vertical-align: middle;
+    
+                &:not(:first-child) {
+                    border-left: 6px solid;
+                }
+            }
         }
     }
 
@@ -23,6 +39,14 @@
         height: 100%;
         background-color: rgba(0, 0, 0, .65);
         color: white;
+
+        .board-overlay-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
     }
 }
 

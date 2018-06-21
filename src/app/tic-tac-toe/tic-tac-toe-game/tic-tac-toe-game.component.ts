@@ -4,7 +4,7 @@ import { TicTacToeBoardComponent } from '../tic-tac-toe-board/tic-tac-toe-board.
 @Component({
   selector: 'tic-tac-toe-game',
   templateUrl: './tic-tac-toe-game.component.html',
-  styleUrls: ['./tic-tac-toe-game.component.css']
+  styleUrls: ['./tic-tac-toe-game.component.scss']
 })
 export class TicTacToeGameComponent implements AfterViewInit {
   @ViewChild(TicTacToeBoardComponent) board: TicTacToeBoardComponent;

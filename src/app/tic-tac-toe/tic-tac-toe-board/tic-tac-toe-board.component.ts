@@ -1,11 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { GamesService } from '../../games/games.service';
 
-enum TicTacToePlayer {
-  X = 'X',
-  O = 'O'
-}
-
+/**
+ * An individual cell of a Tic-Tac-Toe game that players can claim
+ */
 class TicTacToeCell {
   private _status: TicTacToePlayer;
 
@@ -17,7 +15,9 @@ class TicTacToeCell {
 
   public click(player: TicTacToePlayer): boolean {
     if (this._status !== null) {
-      console.warn(`This cell is already claimed!`);
+      let message: string = `This cell is already claimed by Player ${this._status}!`;
+      console.warn(message);
+      alert(message);
       return false;
     }
     this._status = player;
@@ -25,6 +25,9 @@ class TicTacToeCell {
   }
 }
 
+/**
+ * A row of a Tic-Tac-Toe board, containing cells
+ */
 class TicTacToeRow {
   private _cells: TicTacToeCell[];
 
@@ -35,14 +38,86 @@ class TicTacToeRow {
   public get cells(): TicTacToeCell[] { return this._cells; }
 }
 
-class TicTacToeBoard {
-  private _rows: TicTacToeRow[];
+/**
+ * The different players in a Tic-Tac-Toe game
+ */
+enum TicTacToePlayer {
+  X = 'X',
+  O = 'O'
+}
+
+/**
+ * The different results of a Tic-Tac-Toe game
+ */
+enum TicTacToeGameResult {
+  playing = 'playing',
+  won = 'won',
+  draw = 'draw'
+}
+
+/**
+ * Class for tracking the STATE of a Tic-Tac-Toe game
+ */
+class TicTacToeGameState {
+  private _result: TicTacToeGameResult;
+  private _currentPlayer: TicTacToePlayer;
+  private _winner: TicTacToePlayer;
 
   constructor() {
-    this._rows = [new TicTacToeRow(), new TicTacToeRow(), new TicTacToeRow()];
+    this._result = TicTacToeGameResult.playing;
+    this._currentPlayer = TicTacToePlayer.X;
+    this._winner = undefined;
+  }
+
+  public get result(): TicTacToeGameResult { return this._result; }
+  public get currentPlayer(): TicTacToePlayer { return this._currentPlayer; }
+  public get winner(): TicTacToePlayer { return this._winner; }
+
+  public switchPlayer(): void {
+    if (this._currentPlayer === TicTacToePlayer.X) this._currentPlayer = TicTacToePlayer.O;
+    else this._currentPlayer = TicTacToePlayer.X;
+  }
+
+  public win(player: TicTacToePlayer) {
+    this._winner = player;
+    this._result = TicTacToeGameResult.won;
+  }
+
+  public draw(): void {
+    this._result = TicTacToeGameResult.draw;
+    this._winner = undefined;
+  }
+
+  public get gameOver(): boolean {
+    return this._result === TicTacToeGameResult.won || this._result === TicTacToeGameResult.draw;
+  }
+
+  public toString(): string {
+    if (this._result === TicTacToeGameResult.won) return 'Winner!';
+    if (this._result === TicTacToeGameResult.draw) return 'Draw!';
+    return 'Playing...';
+  }
+}
+
+@Component({
+  selector: 'tic-tac-toe-board',
+  templateUrl: './tic-tac-toe-board.component.html',
+  styleUrls: ['./tic-tac-toe-board.component.scss']
+})
+export class TicTacToeBoardComponent implements OnInit {
+  @Output('onNewGame') newGame: EventEmitter<void> = new EventEmitter<void>();
+
+  private _rows: TicTacToeRow[];
+  private _state: TicTacToeGameState;
+
+  constructor(private gamesService: GamesService) { }
+
+  public ngOnInit(): void {
+    this.reset();
   }
 
   public get rows(): TicTacToeRow[] { return this._rows; }
+  public get state(): TicTacToeGameState { return this._state; }
 
   public get columns(): TicTacToeCell[][] {
     let columns: TicTacToeCell[][] = [];
@@ -65,72 +140,89 @@ class TicTacToeBoard {
     }
     return [lrDiagonal, rlDiagonal];
   }
-}
 
-@Component({
-  selector: 'tic-tac-toe-board',
-  templateUrl: './tic-tac-toe-board.component.html',
-  styleUrls: ['./tic-tac-toe-board.component.scss']
-})
-export class TicTacToeBoardComponent implements OnInit {
-  public board: TicTacToeBoard;
-  public currentPlayer: TicTacToePlayer;
-  public winner: TicTacToePlayer = null;
-
-  constructor(private gamesService: GamesService) { }
-
-  ngOnInit() {
-    this.reset();
-  }
-
-  private switchPlayer(): void {
-    if (this.currentPlayer === TicTacToePlayer.X) this.currentPlayer = TicTacToePlayer.O;
-    else this.currentPlayer = TicTacToePlayer.X;
-  }
-
+  /**
+   * Check for a winner in a collection of cells. If all the given cells are claimed by the same player, that player is the winner
+   * @param cells 
+   */
   private checkForWinner(cells: TicTacToeCell[]): TicTacToePlayer {
     if (cells.filter((cell: TicTacToeCell) => cell.status === TicTacToePlayer.X).length === 3) return TicTacToePlayer.X;
     if (cells.filter((cell: TicTacToeCell) => cell.status === TicTacToePlayer.O).length === 3) return TicTacToePlayer.O;
     return null;
   }
 
-  private checkForGameOver(): TicTacToePlayer {
-    console.log(`Checking for winner...`);
+  /**
+   * Update the state of the game by checking for game over conditions or updating the current player
+   */
+  public updateGameState(): void {
+
+    // Check for Game Over
+
+    // Check for WIN
     let winner: TicTacToePlayer = null;
+    let allCells: TicTacToeCell[] = [];
+
     // Horizontal
-    for (let r: number = 0; r < this.board.rows.length; r++) {
-      if (winner = this.checkForWinner(this.board.rows[r].cells)) return winner;
+    for (let r: number = 0; r < this.rows.length; r++) {
+      allCells = allCells.concat(this.rows[r].cells);
+      if (winner = this.checkForWinner(this.rows[r].cells)) {
+        this._state.win(winner);
+        return;
+      }
     }
 
     // Vertical
-    for (let c: number = 0; c < this.board.columns.length; c++) {
-      if (winner = this.checkForWinner(this.board.columns[c])) return winner;
+    for (let c: number = 0; c < this.columns.length; c++) {
+      if (winner = this.checkForWinner(this.columns[c])) {
+        this._state.win(winner);
+        return;
+      }
     }
 
     // Diagonals
-    for (let d: number = 0; d < this.board.diagonals.length; d++){
-      if (winner = this.checkForWinner(this.board.diagonals[d])) return winner;
+    for (let d: number = 0; d < this.diagonals.length; d++) {
+      if (winner = this.checkForWinner(this.diagonals[d])) {
+        this._state.win(winner);
+        return;
+      }
     }
 
-    return winner;
+    // Check for DRAW
+    if (allCells.filter((cell: TicTacToeCell) => cell.status === null).length === 0) {
+      this._state.draw();
+      return;
+    }
+
+    // Game is still being played, switch players
+    this._state.switchPlayer();
   }
 
+  /**
+   * Handle a cell click event (a "move")
+   * @param cell 
+   */
   public click(cell: TicTacToeCell): void {
-    if (!this.winner && cell.click(this.currentPlayer)) {
-      this.switchPlayer();
-      if (this.winner = this.checkForGameOver()) {
-        console.log(this.winner);
-        this.gamesService.reportWin('Tic-Tac-Toe', this.winner.toString()).subscribe(() => {
+    if (!this._state.gameOver && cell.click(this._state.currentPlayer)) {
+
+      this.updateGameState();
+
+      if (this._state.result === TicTacToeGameResult.won) {
+        console.log(`WINNER: ${this._state.winner}`);
+        this.gamesService.reportWin('Tic-Tac-Toe', this._state.winner.toString()).subscribe(() => {
           console.log('win reported!');
         });
+      } else if (this._state.result === TicTacToeGameResult.draw) {
+        console.log('DRAW!');
       }
     }
   }
 
+  /**
+   * Reset the game
+   */
   public reset(): void {
-    this.board = new TicTacToeBoard();
-    this.currentPlayer = TicTacToePlayer.X;
-    this.winner = null;
+    this._rows = [new TicTacToeRow(), new TicTacToeRow(), new TicTacToeRow()];
+    this._state = new TicTacToeGameState();
   }
 
 }

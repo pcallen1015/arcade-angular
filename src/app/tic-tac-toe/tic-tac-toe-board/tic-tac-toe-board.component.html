@@ -1,11 +1,17 @@
 <div class="board-container">
   <table class="board">
     <tbody>
-      <tr *ngFor="let row of board.rows">
+      <tr class="row" *ngFor="let row of rows">
         <td class="cell" *ngFor="let cell of row.cells" (click)="click(cell)">{{ cell.status }}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="board-overlay" *ngIf="winner">Winner! {{ winner }}</div>
+  <div class="board-overlay" *ngIf="state.gameOver">
+    <div class="board-overlay-content">
+      <h1>{{ state.toString() }}</h1>
+      <p *ngIf="state.winner">Player: {{ state.winner }}</p>
+      <button (click)="newGame.emit()">New Game</button>
+    </div>
+  </div>
 </div>
