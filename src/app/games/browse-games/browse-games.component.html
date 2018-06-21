@@ -1,0 +1,9 @@
+<div>
+  <h1>Welcome to the Angular Arcade!</h1>
+  <ul>
+    <li *ngFor="let game of games">
+      <a [routerLink]="['/game', game.id]">{{ game.name }}</a>
+    </li>
+  </ul>
+  
+</div>

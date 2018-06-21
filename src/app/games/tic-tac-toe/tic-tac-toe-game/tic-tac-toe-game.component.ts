@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { TicTacToeBoardComponent } from '../tic-tac-toe-board/tic-tac-toe-board.component';
 
 @Component({
@@ -6,14 +6,10 @@ import { TicTacToeBoardComponent } from '../tic-tac-toe-board/tic-tac-toe-board.
   templateUrl: './tic-tac-toe-game.component.html',
   styleUrls: ['./tic-tac-toe-game.component.scss']
 })
-export class TicTacToeGameComponent implements AfterViewInit {
+export class TicTacToeGameComponent {
   @ViewChild(TicTacToeBoardComponent) board: TicTacToeBoardComponent;
 
   constructor() { }
-
-  public ngAfterViewInit(): void {
-    this.newGame();
-  }
 
   public newGame(): void {
     console.info('Starting a new Tic-Tac-Toe game');

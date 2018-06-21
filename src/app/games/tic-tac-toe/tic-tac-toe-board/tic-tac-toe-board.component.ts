@@ -203,14 +203,11 @@ export class TicTacToeBoardComponent implements OnInit {
    */
   public click(cell: TicTacToeCell): void {
     if (!this._state.gameOver && cell.click(this._state.currentPlayer)) {
-
       this.updateGameState();
 
       if (this._state.result === TicTacToeGameResult.won) {
         console.log(`WINNER: ${this._state.winner}`);
-        this.gamesService.reportWin('Tic-Tac-Toe', this._state.winner.toString()).subscribe(() => {
-          console.log('win reported!');
-        });
+        this.gamesService.reportWin('Tic-Tac-Toe', this._state.winner.toString()).subscribe()
       } else if (this._state.result === TicTacToeGameResult.draw) {
         console.log('DRAW!');
       }

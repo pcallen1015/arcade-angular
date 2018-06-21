@@ -1,0 +1,13 @@
+<div class="game-view">
+  <div class="game">
+    <tic-tac-toe-game *ngIf="gameId === 'tic-tac-toe'"></tic-tac-toe-game>
+
+    <rock-paper-scissors-game *ngIf="gameId === 'rock-paper-scissors'"></rock-paper-scissors-game>
+
+    <div class="navigation">
+      <button class="btn" [routerLink]="['/browse']">Back to Browse</button>
+    </div>
+  </div>
+
+  
+</div>

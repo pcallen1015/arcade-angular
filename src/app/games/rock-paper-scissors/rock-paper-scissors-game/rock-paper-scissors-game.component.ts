@@ -67,7 +67,7 @@ export class RockPaperScissorsGameComponent implements OnInit {
         // determine result
         this._outcome = this.checkResult();
 
-        if (this._outcome !== 'draw') this.gamesService.reportWin('Rock-Paper-Scissors', this._outcome === 'win' ? 'Human' : 'Computer').subscribe(() => console.log('win reported'));
+        if (this._outcome !== 'draw') this.gamesService.reportWin('Rock-Paper-Scissors', this._outcome === 'win' ? 'Human' : 'Computer').subscribe();
       }
     }, 1000);
   }
