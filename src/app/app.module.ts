@@ -4,11 +4,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 
-// Tic-Tac-Toe
-import { TicTacToeModule } from './tic-tac-toe/tic-tac-toe.module';
-
-// Rock-Paper-Scissors
-import { RockPaperScissorsModule } from './rock-paper-scissors/rock-paper-scissors.module';
+import { GamesModule } from './games/games.module';
 
 
 @NgModule({
@@ -18,8 +14,7 @@ import { RockPaperScissorsModule } from './rock-paper-scissors/rock-paper-scisso
   imports: [
     BrowserModule,
 
-    TicTacToeModule,
-    RockPaperScissorsModule,
+    GamesModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

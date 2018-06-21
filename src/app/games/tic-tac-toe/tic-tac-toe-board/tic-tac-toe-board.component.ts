@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { GamesService } from '../../games/games.service';
+import { GamesService } from '../../games.service';
 
 /**
  * An individual cell of a Tic-Tac-Toe game that players can claim
