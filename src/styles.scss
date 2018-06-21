@@ -1,7 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "variables";
+@import "buttons";
 
-body {
+html {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
     font-size: 14px;
+}
+
+.blur {
+    filter: blur(2px);
 }
