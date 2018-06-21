@@ -7,6 +7,9 @@ import { AppComponent } from './app.component';
 // Tic-Tac-Toe
 import { TicTacToeModule } from './tic-tac-toe/tic-tac-toe.module';
 
+// Rock-Paper-Scissors
+import { RockPaperScissorsModule } from './rock-paper-scissors/rock-paper-scissors.module';
+
 
 @NgModule({
   declarations: [
@@ -16,6 +19,7 @@ import { TicTacToeModule } from './tic-tac-toe/tic-tac-toe.module';
     BrowserModule,
 
     TicTacToeModule,
+    RockPaperScissorsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

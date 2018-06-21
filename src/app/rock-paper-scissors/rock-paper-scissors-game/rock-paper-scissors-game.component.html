@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="content">
+    <button *ngIf="!playing" class="btn" (click)="start()">Start!</button>
+
+    <div *ngIf="choosingMove">
+      <h1>QUICK!</h1>
+      <h2>Choose your move!</h2>
+      <h2>{{ timeRemaining }}</h2>
+      <div class="moves">
+        <button *ngFor="let choice of moves" class="btn" [ngClass]="{'selected': playerMove === choice}" (click)="chooseMove(choice)">{{ choice | uppercase }}</button>
+      </div>
+    </div>
+
+    <div *ngIf="outcome">
+      <h3>Opponent's Move: {{ opponentMove || 'none' | uppercase }}</h3>
+      <h3>Your Move: {{ playerMove || 'none' | uppercase }}</h3>
+      <h1>Result: {{ outcome | uppercase }}!</h1>
+      <button class="btn" (click)="reset();">Play Again</button>
+    </div>
+  </div>
+</div>
