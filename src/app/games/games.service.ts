@@ -25,6 +25,8 @@ export class GamesService {
 
   public get games(): Game[] { return GAMES; }
 
+  public getGame(gameId: string) { return GAMES.find((game: Game) => game.id === gameId); }
+
   public reportWin(game: string, winner: string): Observable<any> {
     return this.http.post('/local/wins', { player: winner, game: game, playedOn: new Date()}).map((data: any) => {
       console.info(`${game} win reported for player ${winner}`);

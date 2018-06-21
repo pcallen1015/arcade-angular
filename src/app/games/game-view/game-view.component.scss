@@ -5,20 +5,29 @@
     right: 0;
     bottom: 0;
     overflow: auto;
-    padding: 50px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    .header {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+    }
 
     .game {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-items: center;
+        justify-content: center;
+        flex: 1;
+        overflow: hidden;
+    }
 
-        .navigation {
-            text-align: center;
-            padding: 50px 0;
-        }
+    .navigation {
+        text-align: center;
+        padding: 50px 0;
     }
 }

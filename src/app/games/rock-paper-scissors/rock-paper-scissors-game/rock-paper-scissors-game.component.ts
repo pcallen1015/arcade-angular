@@ -2,6 +2,12 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { GameComponent } from '../../game-component';
 import { GamesService } from '../../games.service';
 
+enum RockPaperScissorsResult {
+  win = 'win',
+  lose = 'lose',
+  draw = 'draw'
+}
+
 @Component({
   selector: 'rock-paper-scissors-game',
   templateUrl: './rock-paper-scissors-game.component.html',
@@ -24,8 +30,8 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
   private _choosingMove: boolean = false;
   public get choosingMove(): boolean { return this._choosingMove; }
 
-  private _outcome: string;
-  public get outcome(): string { return this._outcome; }
+  private _outcome: RockPaperScissorsResult;
+  public get outcome(): RockPaperScissorsResult { return this._outcome; }
 
   private _playerMove: string;
   public get playerMove(): string { return this._playerMove; }
@@ -44,12 +50,12 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     return this._moves[i];
   }
 
-  private checkResult(): string {
+  private checkResult(): RockPaperScissorsResult {
     let state: string[] = [this._playerMove, this._opponentMove];
 
-    if ((this._playerMove && !this._opponentMove) || (this._winStates.indexOf(state.join('/')) > -1)) return 'win';
-    if ((this._opponentMove && !this._playerMove) || (this._winStates.indexOf(state.reverse().join('/')) > -1)) return 'lose';
-    return 'draw';
+    if ((this._playerMove && !this._opponentMove) || (this._winStates.indexOf(state.join('/')) > -1)) return RockPaperScissorsResult.win;
+    if ((this._opponentMove && !this._playerMove) || (this._winStates.indexOf(state.reverse().join('/')) > -1)) return RockPaperScissorsResult.lose;
+    return RockPaperScissorsResult.draw;
   }
 
   public start(): void {

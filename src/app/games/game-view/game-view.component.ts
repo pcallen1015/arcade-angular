@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { GameComponent } from '../game-component';
+import { Game, GamesService } from '../games.service';
 
 @Component({
   selector: 'app-game-view',
@@ -8,22 +9,24 @@ import { GameComponent } from '../game-component';
   styleUrls: ['./game-view.component.scss']
 })
 export class GameViewComponent implements OnInit {
-  @ViewChild(GameComponent) game: GameComponent;
+  @ViewChild(GameComponent) gameRef: GameComponent;
 
-  private _gameId: string;
-  public get gameId(): string { return this._gameId; }
+  private _game: Game;
+  public get game(): Game { return this._game; }
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private gamesService: GamesService
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
-      console.log(params.get('gameId'));
-      this._gameId = params.get('gameId');
+      this._game = this.gamesService.getGame(params.get('gameId'));
     });
   }
 
   public newGame(): void {
-    if (this.game) this.game.newGame();
+    if (this.game) this.gameRef.newGame();
   }
 
 }
