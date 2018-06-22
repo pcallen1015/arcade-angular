@@ -11,3 +11,13 @@ html {
 .blur {
     filter: blur(2px);
 }
+
+.game-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed;
+    box-sizing: border-box;
+    height: 300px;
+    width: 300px;
+}
