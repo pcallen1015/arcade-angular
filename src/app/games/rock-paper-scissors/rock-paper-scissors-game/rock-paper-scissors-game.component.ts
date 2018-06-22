@@ -2,16 +2,37 @@ import { Component, OnInit, forwardRef } from '@angular/core';
 import { GameComponent } from '../../game-component';
 import { GamesService } from '../../games.service';
 
+/**
+ * The possible outcomes of a Rock-Paper-Scissors game
+ */
 enum RockPaperScissorsResult {
   win = 'win',
   lose = 'lose',
   draw = 'draw'
 }
 
+/**
+ * The valid moves in a Rock-Paper-Scissors game
+ */
 const MOVES: string[] = ['rock', 'paper', 'scissors'];
+
+/**
+ * String representations of the win states of a Rock-Paper-Scissors game
+ * 
+ * e.g.:
+ * [player move]/[computer move] --> player wins
+ * [computer move]/[player move] --> computer wins
+ */
 const WIN_STATES: string[] = ['rock/scissors', 'paper/rock', 'scissors/paper'];
+
+/**
+ * The amount of time (seconds) for the player to make a move
+ */
 const MOVE_TIME_LIMIT: number = 3;
 
+/**
+ * Rock-Paper-Scissors game
+ */
 @Component({
   selector: 'rock-paper-scissors-game',
   templateUrl: './rock-paper-scissors-game.component.html',
@@ -20,32 +41,87 @@ const MOVE_TIME_LIMIT: number = 3;
 })
 export class RockPaperScissorsGameComponent extends GameComponent implements OnInit {
 
+  /**
+   * Get the acceptable moves
+   */
   public get moves(): string[] { return MOVES; }
 
+  /**
+   * Track if the game is being played
+   */
   private _playing: boolean = false;
+
+  /**
+   * Check if the game is currently being played
+   */
   public get playing(): boolean { return this._playing; }
 
+  /**
+   * The time remaining for the player to select a move
+   */
   private _timeRemaining: number = MOVE_TIME_LIMIT;
+
+  /**
+   * Get the amount of time remaining for move selection
+   */
   public get timeRemaining(): number { return this._timeRemaining; }
 
+  /**
+   * Track if the player is currently choosing a move
+   */
   private _choosingMove: boolean = false;
+
+  /**
+   * Check if the player is choosing a move
+   */
   public get choosingMove(): boolean { return this._choosingMove; }
 
+  /**
+   * The outcome of the game
+   */
   private _outcome: RockPaperScissorsResult;
+
+  /**
+   * Get the outcome of the game
+   */
   public get outcome(): RockPaperScissorsResult { return this._outcome; }
 
+  /**
+   * The player (human) move
+   */
   private _playerMove: string;
+
+  /**
+   * Get the player's move
+   */
   public get playerMove(): string { return this._playerMove; }
 
+  /**
+   * The opponent's (computer's) move
+   */
   private _opponentMove: string;
+
+  /**
+   * Get the opponent's move
+   */
   public get opponentMove(): string { return this._opponentMove; }
 
+  /**
+   * Initialize the component
+   * @param gamesService 
+   */
   constructor(private gamesService: GamesService) { super(); }
 
+  /**
+   * Initialize the component with a new game
+   */
   public ngOnInit(): void {
     this.newGame();
   }
 
+  /**
+   * Check the result of the game
+   */
   private checkResult(): RockPaperScissorsResult {
     let state: string[] = [this._playerMove, this._opponentMove];
 
@@ -54,6 +130,9 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     return RockPaperScissorsResult.draw;
   }
 
+  /**
+   * Start playing
+   */
   public start(): void {
     this._playing = true;
     this._choosingMove = true;
@@ -76,11 +155,18 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     }, 1000);
   }
 
+  /**
+   * Take the player's move choice
+   * @param choice 
+   */
   public chooseMove(choice: string): void {
     this._playerMove = choice;
     console.info(`Move: ${this._playerMove}`);
   }
 
+  /**
+   * Start a new game
+   */
   public newGame(): void {
     console.info('Starting a new Rock-Paper-Scissors game');
     this._playing = this._choosingMove = false;

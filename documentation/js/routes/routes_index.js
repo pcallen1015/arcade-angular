@@ -1,0 +1,1 @@
+var ROUTES_INDEX = {"name":"<root>","kind":"module","className":"AppModule","children":[{"name":"routes","filename":"src/app/games/games.module.ts","module":"GamesModule","children":[{"path":"browse","component":"BrowseGamesComponent"},{"path":"game/:gameId","component":"GameViewComponent"}],"kind":"module"}]}

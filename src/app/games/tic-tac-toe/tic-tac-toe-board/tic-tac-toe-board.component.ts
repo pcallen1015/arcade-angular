@@ -5,12 +5,23 @@ import { GamesService } from '../../games.service';
  * An individual cell of a Tic-Tac-Toe game that players can claim
  */
 class TicTacToeCell {
+  /**
+   * The player who has "claimed" the cell
+   */
   private _status: TicTacToePlayer;
 
+  /**
+   * Initialize the cell:
+   * 
+   * status: none (nobody has claimed it)
+   */
   constructor() {
     this._status = null;
   }
 
+  /**
+   * Get the player who has claimed the cell
+   */
   public get status(): TicTacToePlayer { return this._status; }
 
   /**
@@ -33,12 +44,23 @@ class TicTacToeCell {
  * A row of a Tic-Tac-Toe board, containing cells
  */
 class TicTacToeRow {
+  /**
+   * The cells in the row
+   */
   private _cells: TicTacToeCell[];
 
+  /**
+   * Initialize the row:
+   * 
+   * cells: [cell, cell, cell]
+   */
   constructor() {
     this._cells = [new TicTacToeCell(), new TicTacToeCell(), new TicTacToeCell()];
   }
 
+  /**
+   * Get the cells in the row
+   */
   public get cells(): TicTacToeCell[] { return this._cells; }
 }
 
@@ -63,18 +85,47 @@ enum TicTacToeGameResult {
  * Class for tracking the STATE of a Tic-Tac-Toe game
  */
 class TicTacToeGameState {
+  /**
+   * The result of the game
+   */
   private _result: TicTacToeGameResult;
+
+  /**
+   * The currently active player
+   */
   private _currentPlayer: TicTacToePlayer;
+
+  /**
+   * The winner (if the game is over and the result is "won")
+   */
   private _winner: TicTacToePlayer;
 
+  /**
+   * Initialize the state:
+   * 
+   * result: playing
+   * current player: X
+   * winner: none
+   */
   constructor() {
     this._result = TicTacToeGameResult.playing;
     this._currentPlayer = TicTacToePlayer.X;
     this._winner = undefined;
   }
 
+  /**
+   * Get the result from the state
+   */
   public get result(): TicTacToeGameResult { return this._result; }
+
+  /**
+   * Get the current player from the state
+   */
   public get currentPlayer(): TicTacToePlayer { return this._currentPlayer; }
+
+  /**
+   * Get the winner from the state
+   */
   public get winner(): TicTacToePlayer { return this._winner; }
 
   /**
@@ -119,24 +170,52 @@ class TicTacToeGameState {
   }
 }
 
+/**
+ * A Tic-Tac-Toe board
+ */
 @Component({
   selector: 'tic-tac-toe-board',
   templateUrl: './tic-tac-toe-board.component.html',
   styleUrls: ['./tic-tac-toe-board.component.scss']
 })
 export class TicTacToeBoardComponent implements OnInit {
+
+  /**
+   * Broadcast a "new game" event to parent component
+   */
   @Output('onNewGame') newGame: EventEmitter<void> = new EventEmitter<void>();
 
+  /**
+   * The rows of the board
+   */
   private _rows: TicTacToeRow[];
+
+  /**
+   * The state of the game
+   */
   private _state: TicTacToeGameState;
 
+  /**
+   * Initialize the component
+   * @param gamesService 
+   */
   constructor(private gamesService: GamesService) { }
 
+  /**
+   * Initialize the component with a new game
+   */
   public ngOnInit(): void {
     this.reset();
   }
 
+  /**
+   * Get the rows of the board
+   */
   public get rows(): TicTacToeRow[] { return this._rows; }
+
+  /**
+   * Get the state of the game
+   */
   public get state(): TicTacToeGameState { return this._state; }
 
   /**
