@@ -8,8 +8,9 @@ enum RockPaperScissorsResult {
   draw = 'draw'
 }
 
-const MOVES = ['rock', 'paper', 'scissors'];
-const WIN_STATES = ['rock/scissors', 'paper/rock', 'scissors/paper'];
+const MOVES: string[] = ['rock', 'paper', 'scissors'];
+const WIN_STATES: string[] = ['rock/scissors', 'paper/rock', 'scissors/paper'];
+const MOVE_TIME_LIMIT: number = 3;
 
 @Component({
   selector: 'rock-paper-scissors-game',
@@ -24,7 +25,7 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
   private _playing: boolean = false;
   public get playing(): boolean { return this._playing; }
 
-  private _timeRemaining: number = 3;
+  private _timeRemaining: number = MOVE_TIME_LIMIT;
   public get timeRemaining(): number { return this._timeRemaining; }
 
   private _choosingMove: boolean = false;
@@ -82,12 +83,9 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
 
   public newGame(): void {
     console.info('Starting a new Rock-Paper-Scissors game');
-    this._playing = false;
-    this._choosingMove = false;
-    this._timeRemaining = 3;
-    this._outcome = undefined;
-    this._playerMove = undefined;
-    this._opponentMove = undefined;
+    this._playing = this._choosingMove = false;
+    this._timeRemaining = MOVE_TIME_LIMIT;
+    this._outcome = this._playerMove = this._opponentMove = undefined;
   }
 
 }
