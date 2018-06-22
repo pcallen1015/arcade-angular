@@ -13,6 +13,10 @@ class TicTacToeCell {
 
   public get status(): TicTacToePlayer { return this._status; }
 
+  /**
+   * Handle a click event on the cell, set the cell's status to the player who clicked
+   * @param player 
+   */
   public click(player: TicTacToePlayer): boolean {
     if (this._status !== null) {
       let message: string = `This cell is already claimed by Player ${this._status}!`;
@@ -73,25 +77,41 @@ class TicTacToeGameState {
   public get currentPlayer(): TicTacToePlayer { return this._currentPlayer; }
   public get winner(): TicTacToePlayer { return this._winner; }
 
+  /**
+   * Switch the current player
+   */
   public switchPlayer(): void {
     if (this._currentPlayer === TicTacToePlayer.X) this._currentPlayer = TicTacToePlayer.O;
     else this._currentPlayer = TicTacToePlayer.X;
   }
 
+  /**
+   * Set the state to "won" and define the player who won the game
+   * @param player 
+   */
   public win(player: TicTacToePlayer) {
     this._winner = player;
     this._result = TicTacToeGameResult.won;
   }
 
+  /**
+   * Set the state to "draw" (and clear the winner)
+   */
   public draw(): void {
     this._result = TicTacToeGameResult.draw;
     this._winner = undefined;
   }
 
+  /**
+   * Check if the state represents a "game over" state (won or draw)
+   */
   public get gameOver(): boolean {
     return this._result === TicTacToeGameResult.won || this._result === TicTacToeGameResult.draw;
   }
 
+  /**
+   * Get a string representation of the state
+   */
   public toString(): string {
     if (this._result === TicTacToeGameResult.won) return 'Winner!';
     if (this._result === TicTacToeGameResult.draw) return 'Draw!';
@@ -119,7 +139,10 @@ export class TicTacToeBoardComponent implements OnInit {
   public get rows(): TicTacToeRow[] { return this._rows; }
   public get state(): TicTacToeGameState { return this._state; }
 
-  public get columns(): TicTacToeCell[][] {
+  /**
+   * Get the columns of the board (transpose the rows)
+   */
+  private get columns(): TicTacToeCell[][] {
     let columns: TicTacToeCell[][] = [];
     for (let c: number = 0; c < 3; c++) {
       let column: TicTacToeCell[] = [];
@@ -131,7 +154,10 @@ export class TicTacToeBoardComponent implements OnInit {
     return columns;
   }
 
-  public get diagonals(): TicTacToeCell[][] {
+  /**
+   * Get the diagonals of the board
+   */
+  private get diagonals(): TicTacToeCell[][] {
     let lrDiagonal: TicTacToeCell[] = [];
     let rlDiagonal: TicTacToeCell[] = [];
     for (let i: number = 0; i < this._rows.length; i++) {
@@ -187,7 +213,7 @@ export class TicTacToeBoardComponent implements OnInit {
       }
     }
 
-    // Check for DRAW
+    // Check for DRAW (all cells occupied, no winner)
     if (allCells.filter((cell: TicTacToeCell) => cell.status === null).length === 0) {
       this._state.draw();
       return;
