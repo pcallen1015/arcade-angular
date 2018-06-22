@@ -41,7 +41,7 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
 
   constructor(private gamesService: GamesService) { super(); }
 
-  ngOnInit() {
+  public ngOnInit(): void {
     this.newGame();
   }
 
