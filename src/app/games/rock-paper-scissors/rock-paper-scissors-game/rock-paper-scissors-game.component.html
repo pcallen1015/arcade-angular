@@ -5,9 +5,9 @@
     <div *ngIf="choosingMove">
       <h1>QUICK!</h1>
       <h2>Choose your move!</h2>
-      <h2>{{ timeRemaining }}</h2>
+      <h3>Time Remaining: {{ timeRemaining }}</h3>
       <div class="moves">
-        <button *ngFor="let choice of moves" class="btn" [ngClass]="{'selected': playerMove === choice}" (click)="chooseMove(choice)">{{ choice | uppercase }}</button>
+        <button *ngFor="let choice of moves" class="btn" [ngClass]="{'selected': playerMove === choice}" (click)="chooseMove(choice)">{{ choice.toString() | uppercase }}</button>
       </div>
     </div>
 
