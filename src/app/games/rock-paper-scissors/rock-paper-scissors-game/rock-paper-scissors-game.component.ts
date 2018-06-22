@@ -8,6 +8,9 @@ enum RockPaperScissorsResult {
   draw = 'draw'
 }
 
+const MOVES = ['rock', 'paper', 'scissors'];
+const WIN_STATES = ['rock/scissors', 'paper/rock', 'scissors/paper'];
+
 @Component({
   selector: 'rock-paper-scissors-game',
   templateUrl: './rock-paper-scissors-game.component.html',
@@ -16,10 +19,7 @@ enum RockPaperScissorsResult {
 })
 export class RockPaperScissorsGameComponent extends GameComponent implements OnInit {
 
-  private _moves: string[] = ['rock', 'paper', 'scissors'];
-  public get moves(): string[] { return this._moves; }
-
-  private _winStates: string[] = ['rock/scissors', 'paper/rock', 'scissors/paper'];
+  public get moves(): string[] { return MOVES; }
 
   private _playing: boolean = false;
   public get playing(): boolean { return this._playing; }
@@ -45,16 +45,11 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     this.newGame();
   }
 
-  private determineOpponentsMove(): string {
-    let i: number = Math.floor(Math.random() * (this._moves.length - 1));
-    return this._moves[i];
-  }
-
   private checkResult(): RockPaperScissorsResult {
     let state: string[] = [this._playerMove, this._opponentMove];
 
-    if ((this._playerMove && !this._opponentMove) || (this._winStates.indexOf(state.join('/')) > -1)) return RockPaperScissorsResult.win;
-    if ((this._opponentMove && !this._playerMove) || (this._winStates.indexOf(state.reverse().join('/')) > -1)) return RockPaperScissorsResult.lose;
+    if ((this._playerMove && !this._opponentMove) || (WIN_STATES.indexOf(state.join('/')) > -1)) return RockPaperScissorsResult.win;
+    if ((this._opponentMove && !this._playerMove) || (WIN_STATES.indexOf(state.reverse().join('/')) > -1)) return RockPaperScissorsResult.lose;
     return RockPaperScissorsResult.draw;
   }
 
@@ -63,7 +58,7 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     this._choosingMove = true;
 
     // Determine opponent's move
-    this._opponentMove = this.determineOpponentsMove();
+    this._opponentMove = MOVES[Math.floor(Math.random() * (MOVES.length - 1))];
 
     let timer = setInterval(() => {
       if (--this._timeRemaining <= 0) {
