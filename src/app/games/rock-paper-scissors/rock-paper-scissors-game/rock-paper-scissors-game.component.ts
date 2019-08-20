@@ -158,7 +158,7 @@ export class RockPaperScissorsGameComponent extends GameComponent implements OnI
     this._choosingMove = true;
 
     // Determine opponent's move
-    this._opponentMove = MOVES[Math.floor(Math.random() * (MOVES.length - 1))];
+    this._opponentMove = MOVES[Math.floor(Math.random() * Math.floor(MOVES.length))];
 
     this._timeRemaining = MOVE_TIME_LIMIT;
     let timer: Subscription = new Timer(this._timeRemaining).start().subscribe((remaining: number) => {
